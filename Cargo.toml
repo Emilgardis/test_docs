@@ -1,0 +1,118 @@
+[package]
+name = "twitch_api2"
+version = "0.5.0-alpha.3"
+authors = ["Emil Gardström <emil.gardstrom@gmail.com>"]
+edition = "2018"
+repository = "https://github.com/Emilgardis/twitch_api2"
+license = "MIT OR Apache-2.0"
+description = "Library for talking with the new Twitch API aka. \"Helix\", TMI and more!"
+keywords = ["oauth", "twitch", "async", "asynchronous", "api"]
+documentation = "https://docs.rs/twitch_api2/0.4.1"
+readme = "README.md"
+build = "build.rs"
+
+[dependencies]
+thiserror = "1.0.23"
+displaydoc = "0.1.7"
+http = "0.2.3"
+typed-builder = { version = "0.9.0", optional = true }
+url = { version = "2.2.0", optional = true }
+twitch_oauth2 = { version = "0.5.0-alpha.3", optional = true, path = "twitch_oauth2/" }
+serde = { version = "1.0.123", features = ["derive"] }
+serde_derive = "1.0.123"
+async-trait = { version = "0.1.42", optional = true }
+serde_json = { version = "1.0.62", optional = true }
+serde_repr = "0.1.6"
+reqwest = { version = "0.11.0", optional = true }
+surf = { version = "2.1.0", optional = true }
+http-types = { version = "2.10.0", optional = true, features = ["hyperium_http"] }
+
+[features]
+default = []
+
+client = ["twitch_oauth2"]
+
+unsupported = []
+allow_unknown_fields = []
+
+helix = [
+    "url",
+    "async-trait",
+    "serde_json",
+    "typed-builder",
+]
+
+tmi = ["serde_json"]
+
+surf_client = [
+    "surf",
+    "url",
+    "http-types",
+    "client"
+]
+
+reqwest_client = ["reqwest", "client"]
+
+pubsub = ["serde_json"]
+
+eventsub = ["serde_json"]
+
+all = ["tmi", "helix", "surf_client", "reqwest_client", "client", "pubsub", "eventsub"]
+
+[dev-dependencies]
+tokio = { version = "1.2.0", features = ["rt-multi-thread", "macros"] }
+dotenv = "0.15.0"
+futures = "0.3.12"
+
+[build-dependencies]
+version_check = "0.9.2"
+
+
+[[example]]
+name = "automod_check"
+path = "examples/automod_check.rs"
+required-features = ["twitch_oauth2/surf_client", "surf_client"]
+
+[[example]]
+name = "get_channel_status"
+path = "examples/get_channel_status.rs"
+required-features = ["twitch_oauth2/reqwest_client", "reqwest_client"]
+
+[[example]]
+name = "get_hosts"
+path = "examples/get_hosts.rs"
+required-features = ["surf_client"]
+
+[[example]]
+name = "get_moderation"
+path = "examples/get_moderation.rs"
+required-features = ["twitch_oauth2/surf_client", "surf_client"]
+
+[[example]]
+name = "get_streams_and_chatters"
+path = "examples/get_streams_and_chatters.rs"
+required-features = ["twitch_oauth2/surf_client", "surf_client"]
+
+[[example]]
+name = "modify_channel"
+path = "examples/modify_channel.rs"
+required-features = ["twitch_oauth2/surf_client", "surf_client"]
+
+[[example]]
+name = "client"
+path = "examples/client.rs"
+required-features = ["twitch_oauth2/reqwest_client", "reqwest_client"]
+
+[[example]]
+name = "create_follower"
+path = "examples/create_follower.rs"
+required-features = ["twitch_oauth2/surf_client"]
+
+[[example]]
+name = "channel_information"
+path = "examples/channel_information.rs"
+required-features = ["twitch_oauth2/reqwest_client", "reqwest_client"]
+
+
+[package.metadata.docs.rs]
+features = ["all", "unsupported"]
