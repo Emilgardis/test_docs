@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["StreamType","Gotten from `Stream.type_`"]],"mod":[["get_stream_tags","Gets the list of tags for a specified stream (channel). `get-stream-tags`"],["get_streams","Gets information about active streams. `get-streams`"]]});
